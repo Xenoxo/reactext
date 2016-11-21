@@ -10,6 +10,8 @@ var users = require('./routes/users');
 
 var app = express();
 
+var http = require('http').Server(app);
+
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -41,6 +43,10 @@ app.use(function(err, req, res, next) {
   // render the error page
   res.status(err.status || 500);
   res.render('error');
+});
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
 });
 
 module.exports = app;
