@@ -36,15 +36,24 @@ app.use(function(req, res, next) {
 });
 
 // to help with chat service
-// app.get('/', function(req,res){
-//   res.sendfile('index.html');
-// })
 
 io.on('connection', function(socket){
   socket.on('chat message', function(msg){
     io.emit('chat message', msg)
   });
+  socket.broadcast.emit("new homie", "New person has joined");
+  socket.on('disconnect', function(){
+    socket.broadcast.emit("peace out", "I'm outta here, TTYL!");
+  })
 });
+
+
+/*io.on('connection', function(socket){
+  socket.on('new person', function(msg){
+    $('#messages').append($('<li>').text(msg));
+  });  
+  socket.broadcast.emit("A new person has joined!");
+});*/
 
 http.listen(3000, function(){
   console.log('listening on *:3000');
